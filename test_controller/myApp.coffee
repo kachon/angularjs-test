@@ -1,4 +1,21 @@
-myApp = angular.module('myApp', []);
+myApp = angular.module('myApp', ['ui.bootstrap', 'ngRoute', 'myControllers']);
+myApp.config(['$routeProvider',
+  ($routeProvider) ->
+    $routeProvider.
+      when('/ctrl1', {
+          templateUrl: 'ctrl1.html'
+          controller: 'MyCtrl1'
+        }).
+      when('/ctrl2', {
+          templateUrl: 'ctrl2.html'
+          controller: 'MyCtrl2'
+        }).
+      otherwise({
+        redirectTo: '/ctrl1'
+        })
+])
+
+myControllers = angular.module('myControllers', []);
 
 class MyService
   constructor: (@message, @service_data) ->
@@ -35,7 +52,7 @@ myApp.factory('myDataService', () =>
   myservice = new MyService
 )
 
-myApp.controller('MyCtrl1', ($scope, myDataService) =>
+myControllers.controller('MyCtrl1', ($scope, myDataService) =>
   $scope.msg = "MyCtrl1"
   $scope.data = myDataService
   $scope.items = myDataService.items
@@ -48,7 +65,8 @@ myApp.controller('MyCtrl1', ($scope, myDataService) =>
     $scope.items.splice(index, 1)
 )
 
-myApp.controller('MyCtrl2', ($scope, myDataService) =>
+myControllers.controller('MyCtrl2', ($scope, myDataService) =>
   $scope.msg = "MyCtrl2"
   $scope.data = myDataService
 )
+
